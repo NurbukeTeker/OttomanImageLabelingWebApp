@@ -1,0 +1,53 @@
+ <!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="{{url_for('static',filename='bootstrap.min.css')}}">
+  <title style="color:red" >Osmanlıca Resim Etiketleyici</title>
+  <body class style="margin:10px;padding:10px">
+    <div class="page-header" id="banner">
+      <div class="row">
+        <div class="col-lg-8 col-md-7 col-sm-6">
+          <h3>Osmanlıca Resim Etiketleyici</h3>
+          <p class="lead">Resim yükleyerek test edin </p>
+        </div>
+      </div>
+      <form action="" method=post enctype=multipart/form-data>
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+     
+    </div>
+    <p style="margin-bottom:2cm;"></p>
+    <div class="row">
+        <div class="col-lg-4">
+          <div class="page-header">
+            <h3 id="tables">Sonuç</h3>
+          </div>
+          <div class="bs-component">
+            <table class="table table-hover">
+                <tr class="table-active">
+                  <th scope="col">Resim</th>
+                  <th scope="col">Tesseract Tahmin Sonucu</th>
+                  <th scope="col">Onay</th>
+                  <th scope="col">Tahmin Düzenle</th>
+                </tr>
+                <tr>
+                    <th scope="row"> <img width="600" height="600" src="{{imagesource}}" /> </th>
+                    <td contenteditable="true">  {% for trend in label %} <li> {{ trend }} {% endfor %}	 </td>
+                                       
+                    <td> <form action="{{ url_for('approve') }}" method="post"> 
+                     <input type="submit" name="approve" value="approve"></td>
+                     <input type="hidden" name="label" value= {{label}} />
+                     </form> </td>
+                    <td> <form action="{{ url_for('handle_data') }}" method="post">
+                    <textarea name="paragraph_text" cols="50" rows="10"></textarea>
+                    <input type="submit" name="inputText"> </td>
+                    </form> </td>
+                    
+                  </tr>
+            </table> 
+        </div>
+      </div>
+  </body>
