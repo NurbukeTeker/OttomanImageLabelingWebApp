@@ -33,7 +33,10 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 def write_to_file():
-    f = open("1.txt","a" ,encoding='utf-8')
+
+    import ntpath
+    crop_name = ntpath.basename(current_image.name)
+    f = open("static/{}.txt".format(crop_name),"a" ,encoding='utf-8')
 
     # f = open("static/1.txt".format(current_image.id),"w" ,encoding='utf-8')
     # output = ["ImagePath:", current_image.name,"ImageLabel:", current_image.newlabel]
@@ -60,8 +63,9 @@ def predictionImageOttoman(image):
 #    gray = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)[1]
 #    gray = cv2.medianBlur(gray, 3)
     config = "--psm 3"
-
-    filename = "static/{}.tif".format(current_image.id)
+    import ntpath
+    crop_name = ntpath.basename(current_image.name)
+    filename = "static/{}.tif".format(crop_name)
     cv2.imwrite(filename, adaptive_threshold)
     
     pytesseract.pytesseract.tesseract_cmd = 'tesseract'
@@ -123,7 +127,7 @@ def approve():
     
 @app.route("/")
 def template_test():
-    resetImage()
+    # resetImage()
     return render_template('home.html', label='', imagesource='file://null')
 
 
@@ -157,5 +161,5 @@ def uploaded_file(filename):
                                filename)
 
 if __name__ == "__main__":
-    app.run(host = '0.0.0.0', port= '5009',debug=True, threaded=False)
+    app.run(host = '127.0.0.1', port= '5000',debug=True, threaded=False)
 #    app.run(host = '192.168.1.38', port= '5000')
